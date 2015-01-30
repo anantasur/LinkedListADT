@@ -2,6 +2,7 @@ typedef void* voidPtr;
 typedef struct node Node;
 typedef Node * Node_ptr;
 typedef struct linkedList LinkedList;
+typedef char *string;
 
 struct linkedList{
 	Node_ptr head;
@@ -15,8 +16,12 @@ struct node {
 };
 
 LinkedList createList(void);
-Node * create_node(void *data);
+Node * create_node(void *);
 int add_to_list(LinkedList *,Node *);
-void *get_first_element(LinkedList list);
-void *get_last_element(LinkedList list);
-void traverse(LinkedList, void (*)(void *data));
+void *get_first_element(LinkedList);
+void *get_last_element(LinkedList);
+void traverse(LinkedList, void (*)(void *));
+void * getElementAt(LinkedList, int );
+int indexOf(LinkedList, void *);
+void * deleteElementAt(LinkedList *, int);
+int asArray(LinkedList, void **);

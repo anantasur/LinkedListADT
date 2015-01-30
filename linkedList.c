@@ -1,6 +1,7 @@
 #include "linkedList.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>	
 
 LinkedList createList(void){
 	LinkedList list = {NULL,NULL,0};
@@ -16,10 +17,9 @@ Node * create_node(void *data){
 	return newNode;
 }
 
-int add_to_list(LinkedList *list,Node *node){
-	if(list->head==NULL){
-		list->head = node;
-	}
+int add_to_list(LinkedList* list,Node* node){
+	if(list->head == NULL) list->head=node;
+	else list->tail->next = node;
 	list->tail = node;
 	list->count++;
 	return 1;
@@ -39,4 +39,44 @@ void traverse(LinkedList list, void (*func)(void* data)) {
 		func(walker->data);
 		walker = walker->next;
 	}
+}
+
+void * getElementAt(LinkedList list, int index){
+	int i;
+	Node* walker =list.head;
+	if(index>=list.count) return NULL;
+	for(i=0;i<index;i++) walker=walker->next;
+	return walker->data;
+}
+
+int indexOf(LinkedList list, void* data){
+	int index=0;
+	Node* walker = list.head;  
+	while(walker!=NULL){
+		if(walker->data == data) return index;
+		index++;
+		walker = walker->next;
+	}
+	return -1;
+}
+
+void * deleteElementAt(LinkedList *list, int index){
+	Node* walker;
+	int count = 0;
+	for(walker = list->head;walker!=NULL;walker = walker->next) {
+		if(count == index-1) {
+			walker->next = walker->next->next;
+			break;
+		}
+		count++;
+	}	
+	return walker->next->data;
+}
+
+int asArray(LinkedList list, void **destination){
+	int count;
+	for (count=0;count<list.count;count++){
+		destination[count]=getElementAt(list,count);
+	}
+	return count;
 }
